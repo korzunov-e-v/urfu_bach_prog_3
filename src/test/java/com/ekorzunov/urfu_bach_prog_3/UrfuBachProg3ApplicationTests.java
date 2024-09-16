@@ -1,10 +1,10 @@
-package com.ekorzunov.lr1;
+package com.ekorzunov.urfu_bach_prog_3;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class Lr1ApplicationTests {
+class UrfuBachProg3ApplicationTests {
 
 	@Test
 	void contextLoads() {
