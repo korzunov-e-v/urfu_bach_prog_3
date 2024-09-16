@@ -1,12 +1,12 @@
-package ru.ekorzunov.urfu_bach_prog_3.lr3.controller;
+package ru.ekorzunov.urfu_bach_prog_3.lr4.controller;
 
 import org.springframework.beans.factory.annotation.Qualifier;
-import ru.ekorzunov.urfu_bach_prog_3.lr3.exception.UnsupportedCodeException;
-import ru.ekorzunov.urfu_bach_prog_3.lr3.exception.ValidationFailedException;
-import ru.ekorzunov.urfu_bach_prog_3.lr3.model.*;
-import ru.ekorzunov.urfu_bach_prog_3.lr3.service.ModifyResponseService;
-import ru.ekorzunov.urfu_bach_prog_3.lr3.service.ValidationService;
-import ru.ekorzunov.urfu_bach_prog_3.lr3.util.DateTimeUtil;
+import ru.ekorzunov.urfu_bach_prog_3.lr4.exception.UnsupportedCodeException;
+import ru.ekorzunov.urfu_bach_prog_3.lr4.exception.ValidationFailedException;
+import ru.ekorzunov.urfu_bach_prog_3.lr4.model.*;
+import ru.ekorzunov.urfu_bach_prog_3.lr4.service.ModifyResponseService;
+import ru.ekorzunov.urfu_bach_prog_3.lr4.service.ValidationService;
+import ru.ekorzunov.urfu_bach_prog_3.lr4.util.DateTimeUtil;
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +18,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.text.DateFormat;
+import java.text.ParseException;
 import java.util.Date;
 
 
@@ -86,7 +88,17 @@ public class MyController {
         response = modifyResponseService2.modify(response);
 
         log.info("response: {}", response);
-        return new ResponseEntity<>(response, httpStatus);
 
+        DateFormat dateFormat = DateTimeUtil.getCustomFormat();
+        try {
+            Date date1 = dateFormat.parse(request.getSystemTime());
+            Date date2 = new Date();
+            long dt = date2.getTime() - date1.getTime();
+            log.info("Time since user sent request (ms): {}", dt);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        return new ResponseEntity<>(response, httpStatus);
     }
 }

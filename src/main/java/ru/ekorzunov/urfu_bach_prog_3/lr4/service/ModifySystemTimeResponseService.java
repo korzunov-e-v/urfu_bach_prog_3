@@ -1,7 +1,7 @@
-package ru.ekorzunov.urfu_bach_prog_3.lr3.service;
+package ru.ekorzunov.urfu_bach_prog_3.lr4.service;
 
-import ru.ekorzunov.urfu_bach_prog_3.lr3.model.Response;
-import ru.ekorzunov.urfu_bach_prog_3.lr3.util.DateTimeUtil;
+import ru.ekorzunov.urfu_bach_prog_3.lr4.model.Response;
+import ru.ekorzunov.urfu_bach_prog_3.lr4.util.DateTimeUtil;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Service;
 

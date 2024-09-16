@@ -1,4 +1,4 @@
-package ru.ekorzunov.urfu_bach_prog_3.lr3.model;
+package ru.ekorzunov.urfu_bach_prog_3.lr4.model;
 
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
@@ -24,7 +24,7 @@ public class Request {
     @Size(max = 32)
     private String operationUid;
 
-    private Systems systemName;
+    private String systemName;
     private String systemTime;
     private String source;
 
