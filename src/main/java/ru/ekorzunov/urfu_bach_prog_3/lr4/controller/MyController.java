@@ -1,12 +1,14 @@
-package ru.ekorzunov.urfu_bach_prog_3.lr3.controller;
+package ru.ekorzunov.urfu_bach_prog_3.lr4.controller;
 
 import org.springframework.beans.factory.annotation.Qualifier;
-import ru.ekorzunov.urfu_bach_prog_3.lr3.exception.UnsupportedCodeException;
-import ru.ekorzunov.urfu_bach_prog_3.lr3.exception.ValidationFailedException;
-import ru.ekorzunov.urfu_bach_prog_3.lr3.model.*;
-import ru.ekorzunov.urfu_bach_prog_3.lr3.service.ModifyResponseService;
-import ru.ekorzunov.urfu_bach_prog_3.lr3.service.ValidationService;
-import ru.ekorzunov.urfu_bach_prog_3.lr3.util.DateTimeUtil;
+import ru.ekorzunov.urfu_bach_prog_3.lr4.exception.UnsupportedCodeException;
+import ru.ekorzunov.urfu_bach_prog_3.lr4.exception.ValidationFailedException;
+import ru.ekorzunov.urfu_bach_prog_3.lr4.model.*;
+import ru.ekorzunov.urfu_bach_prog_3.lr4.service.ModifyRequestService;
+import ru.ekorzunov.urfu_bach_prog_3.lr4.service.ModifyResponseService;
+import ru.ekorzunov.urfu_bach_prog_3.lr4.service.SendToSecondInstanceService;
+import ru.ekorzunov.urfu_bach_prog_3.lr4.service.ValidationService;
+import ru.ekorzunov.urfu_bach_prog_3.lr4.util.DateTimeUtil;
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.Date;
 
 
-@RequestMapping("/lr3")
+@RequestMapping("/lr4")
 @Slf4j
 @RestController
 public class MyController {
@@ -29,14 +31,23 @@ public class MyController {
     private final ValidationService validationService;
     private final ModifyResponseService modifyResponseService1;
     private final ModifyResponseService modifyResponseService2;
+    private final ModifyRequestService modifyRequestService1;
+    private final ModifyRequestService modifyRequestService2;
+    private final SendToSecondInstanceService sendToSecondInstanceService;
 
     @Autowired
     public MyController(ValidationService validationService,
                         @Qualifier("ModifySystemTimeResponseService") ModifyResponseService modifyResponseService1,
-                        @Qualifier("ModifyOperationUidResponseService") ModifyResponseService modifyResponseService2) {
+                        @Qualifier("ModifyOperationUidResponseService") ModifyResponseService modifyResponseService2,
+                        @Qualifier("ModifySystemNameRequestService") ModifyRequestService modifyRequestService1,
+                        @Qualifier("ModifySourceRequestService") ModifyRequestService modifyRequestService2,
+                        @Qualifier("SendToSecondInstanceService") SendToSecondInstanceService sendToSecondInstanceService) {
         this.validationService = validationService;
         this.modifyResponseService1 = modifyResponseService1;
         this.modifyResponseService2 = modifyResponseService2;
+        this.modifyRequestService1 = modifyRequestService1;
+        this.modifyRequestService2 = modifyRequestService2;
+        this.sendToSecondInstanceService = sendToSecondInstanceService;
     }
 
     @PostMapping("/feedback")
@@ -45,10 +56,12 @@ public class MyController {
 
         log.info("request: {}", request);
 
+        Date requestDateTime = new Date();
+
         Response response = Response.builder()
                 .uid(request.getUid())
                 .operationUid(request.getOperationUid())
-                .systemTime(DateTimeUtil.getCustomFormat().format(new Date()))
+                .systemTime(DateTimeUtil.getCustomFormat().format(requestDateTime))
                 .code(Codes.SUCCESS)
                 .errorCode(ErrorCodes.EMPTY)
                 .errorMessage(ErrorMessages.EMPTY)
@@ -84,9 +97,16 @@ public class MyController {
         }
         response = modifyResponseService1.modify(response);
         response = modifyResponseService2.modify(response);
-
         log.info("response: {}", response);
-        return new ResponseEntity<>(response, httpStatus);
 
+
+        request = modifyRequestService1.modify(request);
+        request = modifyRequestService2.modify(request);
+        request.setSystemTime(DateTimeUtil.getCustomFormat().format(requestDateTime));
+
+        sendToSecondInstanceService.send(request);
+        log.info("request sent to second service, request: {}", request);
+
+        return new ResponseEntity<>(response, httpStatus);
     }
 }

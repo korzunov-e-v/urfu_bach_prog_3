@@ -1,4 +1,4 @@
-package ru.ekorzunov.urfu_bach_prog_3.lr3.exception;
+package ru.ekorzunov.urfu_bach_prog_3.lr4.exception;
 
 public class ValidationFailedException extends Exception {
 
