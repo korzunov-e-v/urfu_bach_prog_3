@@ -1,4 +1,4 @@
-package ru.ekorzunov.urfu_bach_prog_3.lr4.model;
+package ru.ekorzunov.urfu_bach_prog_3.lr5.model;
 
 import com.fasterxml.jackson.annotation.JsonValue;
 

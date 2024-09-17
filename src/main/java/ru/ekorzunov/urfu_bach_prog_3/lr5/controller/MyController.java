@@ -1,14 +1,14 @@
-package ru.ekorzunov.urfu_bach_prog_3.lr4.controller;
+package ru.ekorzunov.urfu_bach_prog_3.lr5.controller;
 
 import org.springframework.beans.factory.annotation.Qualifier;
-import ru.ekorzunov.urfu_bach_prog_3.lr4.exception.UnsupportedCodeException;
-import ru.ekorzunov.urfu_bach_prog_3.lr4.exception.ValidationFailedException;
-import ru.ekorzunov.urfu_bach_prog_3.lr4.model.*;
-import ru.ekorzunov.urfu_bach_prog_3.lr4.service.ModifyRequestService;
-import ru.ekorzunov.urfu_bach_prog_3.lr4.service.ModifyResponseService;
-import ru.ekorzunov.urfu_bach_prog_3.lr4.service.SendToSecondInstanceService;
-import ru.ekorzunov.urfu_bach_prog_3.lr4.service.ValidationService;
-import ru.ekorzunov.urfu_bach_prog_3.lr4.util.DateTimeUtil;
+import ru.ekorzunov.urfu_bach_prog_3.lr5.exception.UnsupportedCodeException;
+import ru.ekorzunov.urfu_bach_prog_3.lr5.exception.ValidationFailedException;
+import ru.ekorzunov.urfu_bach_prog_3.lr5.model.*;
+import ru.ekorzunov.urfu_bach_prog_3.lr5.service.ModifyRequestService;
+import ru.ekorzunov.urfu_bach_prog_3.lr5.service.ModifyResponseService;
+import ru.ekorzunov.urfu_bach_prog_3.lr5.service.SendToSecondInstanceService;
+import ru.ekorzunov.urfu_bach_prog_3.lr5.service.ValidationService;
+import ru.ekorzunov.urfu_bach_prog_3.lr5.util.DateTimeUtil;
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,7 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.Date;
 
 
-@RequestMapping("/lr4")
+@RequestMapping("/lr5")
 @Slf4j
 @RestController
 public class MyController {
@@ -98,7 +98,6 @@ public class MyController {
         response = modifyResponseService1.modify(response);
         response = modifyResponseService2.modify(response);
         log.info("response: {}", response);
-
 
         request = modifyRequestService1.modify(request);
         request = modifyRequestService2.modify(request);

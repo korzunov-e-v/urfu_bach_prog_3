@@ -1,4 +1,4 @@
-package ru.ekorzunov.urfu_bach_prog_3.lr4.model;
+package ru.ekorzunov.urfu_bach_prog_3.lr5.model;
 
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.Min;
@@ -18,23 +18,28 @@ public class Request {
 
     @NotBlank
     @Size(max = 32)
-    private String uid;
+    private String uid; // Уникальный идентификатор сообщение
 
     @NotBlank
     @Size(max = 32)
-    private String operationUid;
+    private String operationUid; // Уникальный идентификатор операции
 
-    private String systemName;
-    private String systemTime;
-    private String source;
+    private String systemName; // Имя системы отправителя
+    private String systemTime; // Время создания сообщения
+    private String source; // Наименование ресурса
+
+    private Positions position; // Должность
+    private Double salary; // Заработная плата
+    private Double bonus; // Бонус
+    private Integer workDays; // Кол-во рабочих дней
 
     @Min(1)
     @Max(100000)
-    private int communicationId;
+    private int communicationId; // Уникальный идентификатор коммуникации
 
-    private int templateId;
-    private int productCode;
-    private int smsCode;
+    private int templateId; // Уникальный идентификатор шаблона
+    private int productCode; // Код продукта
+    private int smsCode; // Смс код
 
     @Override
     public String toString() {
